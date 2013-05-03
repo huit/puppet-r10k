@@ -13,10 +13,19 @@ class r10k::params {
             $r10k_bin = '/var/lib/gems/1.8/bin/r10k'
           }
         }
-      'RedHat': {
-        $r10k_bin = '/usr/bin/r10k'
-        default: { fail("${::lsbdistcodename} is not supported by the r10k module") }
       }
-    default: { fail("${::lsbdistcodename} is not supported by the r10k module") }
+      'RedHat': {
+        case $::lsbmajdistrelease{
+          '5': {
+            $r10k_bin = '/usr/bin/r10k'
+          }
+          default: {
+            fail("${::operatingsystem} - ${::lsbdistcodename} is not supported by the r10k module")
+          }
+        }
+      }
+      default: {
+        fail("${::operatingsystem} - ${::lsbdistcodename} is not supported by the r10k module")
+      }
   }
 }
