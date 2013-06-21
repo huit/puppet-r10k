@@ -1,6 +1,6 @@
 class r10k::params {
 
-  case $::operatingsystem {
+  case $::osfamily {
       'Debian': {
         case $::lsbdistcodename {
           'squeeze': {
@@ -16,16 +16,16 @@ class r10k::params {
       }
       'RedHat': {
         case $::lsbmajdistrelease{
-          '5': {
+          '5','6': {
             $r10k_bin = '/usr/bin/r10k'
           }
           default: {
-            fail("${::operatingsystem} - ${::lsbdistcodename} is not supported by the r10k module")
+            fail("${::osfamily} - ${::lsbdistcodename} is not supported by the r10k module")
           }
         }
       }
       default: {
-        fail("${::operatingsystem} - ${::lsbdistcodename} is not supported by the r10k module")
+        fail("${::osfamily} - ${::lsbdistcodename} is not supported by the r10k module")
       }
   }
 }
